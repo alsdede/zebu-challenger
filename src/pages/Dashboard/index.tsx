@@ -1,66 +1,125 @@
-import React from 'react';
-import { Grid, Typography } from '@material-ui/core';
-import {
-  Content,
-  PaperPizza,
-  Pizza,
-  PizzasGrid,
-  PizzaText,
-  Title,
-} from './styles';
+import React, { useState } from 'react';
+import Select, { ValueType } from 'react-select';
 
-const pizzaSizes = [
+import {
+  Container,
+  Error,
+  NextButton,
+  Title,
+  PizzaSizeButton,
+  CrustButton,
+  PizzaContainerSize,
+  PizzaContainerCrust,
+} from './styles';
+import Footer from '../../components/Footer';
+import PizzaAvatar from '../../assets/forma.png';
+
+type OptionCrustType = {
+  value: string;
+  label: string;
+  price: number;
+};
+
+interface Size {
+  value: string;
+
+  label: string;
+
+  price: number;
+
+  maxIngridientes: number;
+}
+
+interface Crust {
+  value: string;
+
+  label: string;
+
+  price: number;
+}
+
+const sizeOptions: Size[] = [
+  { value: 'small', label: 'Small - 9 inches', price: 8, maxIngridientes: 5 },
   {
-    id: 0,
-    name: 'Small',
-    toppings: 5,
-    price: 8,
-  },
-  {
-    id: 1,
-    name: 'Medium',
-    toppings: 7,
+    value: 'medium',
+    label: 'Medium - 12 inches',
     price: 10,
+    maxIngridientes: 7,
   },
   {
-    id: 2,
-    name: 'Large',
-    toppings: 9,
+    value: 'large',
+    label: 'Large - 14 inches',
     price: 12,
+    maxIngridientes: 10,
   },
 ];
 
+const crustOptions: Crust[] = [
+  { value: 'thin', label: `Thin +$2`, price: 2 },
+  { value: 'thick', label: 'Thick +$4', price: 4 },
+];
+
 const Dashboard: React.FC = () => {
+  const [inputError, setInputError] = useState('');
+  const [selected, setSelected] = useState<boolean>(false);
+  const [sizePizza, setSizePizza] = useState<Size>();
+  const [crust, setCrust] = useState<Crust>();
+
+  const handleSelectPizza = (option: Size) => {
+    if (crust) {
+      setCrust(undefined);
+    }
+    setSizePizza(option);
+    setSelected(true);
+  };
+
+  const handleSelectCrust = (option: Crust) => {
+    setCrust(option);
+  };
   return (
     <>
-      <Content>
-        <Grid container direction="column" alignItems="center">
-          <Grid item>
-            <Title variant="h3" gutterBottom>
-              Choose your size
-            </Title>
-          </Grid>
-        </Grid>
-        <PizzasGrid>
-          {pizzaSizes.map((pizza) => (
-            <Grid item key={pizza.id} xs>
-              <PaperPizza style={{ padding: 20 }}>
-                <Pizza>
-                  <PizzaText>{pizza.name}</PizzaText>
-                </Pizza>
-                <Typography variant="h5">
-                  U$
-                  {pizza.price}
-                </Typography>
-                <Typography>
-                  Maximun ingredients
-                  {pizza.toppings}
-                </Typography>
-              </PaperPizza>
-            </Grid>
+      <Container>
+        <Title>Choose Pizza Size:</Title>
+        <PizzaContainerSize>
+          {sizeOptions.map((size) => (
+            <>
+              <PizzaSizeButton
+                selected={!!sizePizza && sizePizza === size}
+                onClick={() => {
+                  handleSelectPizza(size);
+                }}
+              >
+                <img src={PizzaAvatar} alt="pizza" />
+                <span>{size.label}</span>
+                <span>
+Price: $
+{size.price}
+                </span>
+                {!!sizePizza && sizePizza === size ? (
+                  <PizzaContainerCrust>
+                    <span>Choose pizza Crust</span>
+                    {crustOptions.map((c) => (
+                      <CrustButton
+                        onClick={() => {
+                          handleSelectCrust(c);
+                        }}
+                        selected={!!crust && crust === c}
+                      >
+                        {c?.label}
+                      </CrustButton>
+                    ))}
+                  </PizzaContainerCrust>
+                ) : (
+                  ''
+                )}
+              </PizzaSizeButton>
+            </>
           ))}
-        </PizzasGrid>
-      </Content>
+        </PizzaContainerSize>
+
+        <NextButton to="/toppings">Select Toppings</NextButton>
+      </Container>
+      {/* <Footer /> */}
     </>
   );
 };

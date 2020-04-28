@@ -1,0 +1,83 @@
+{
+  "ingridients" : [
+    {
+      "id": 0,
+      "name": "Pepperoni",
+      "checked": false
+    },
+    {
+      "id": 1,
+      "name": "Mushrooms",
+      "checked": false
+    },
+    {
+      "id": 2,
+      "name": "Onions",
+      "checked": false
+    },
+    {
+      "id": 3,
+      "name": "Sausage",
+      "checked": false
+    },
+    {
+      "id": 4,
+      "name": "Bacon",
+      "checked": false
+    },
+    {
+      "id": 5,
+      "name": "Extra cheese",
+      "checked": false
+    },
+    {
+      "id": 6,
+      "name": "Black olives",
+      "checked": false
+    },
+    {
+      "id": 7,
+      "name": "Green peppers",
+      "checked": false
+    },
+    {
+      "id": 8,
+      "name": "Pineapple",
+      "checked": false
+    },
+    {
+      "id": 9,
+      "name": "Spinach",
+      "checked": false
+    }
+  ],
+  "sizes" : [
+    {
+      "id": 0,
+      "name": "Small",
+      "toppings": 5,
+      "price": 8
+    },
+    {
+      "id": 1,
+      "name": "Medium",
+      "toppings": 7,
+      "price": 10
+    },
+    {
+      "id": 2,
+      "name":"Large",
+      "toppings": 9,
+      "price": 12
+    }
+  ],
+  "options": [
+    { "id":0,"value": "small", "label": "Small", "price":8,"ingridients": 5 },
+    { "id":1,"value": "medium", "label": "Medium", "price": 10,"ingridients":7 },
+    { "id":2,"value": "large", "label": "Large", "price":12,"ingridients":10 }
+  ],
+  "crust": [
+    { "id":0,"value": "thin", "label": "thin", "price": 2 },
+    { "id":1,"value": "thick", "label": "Thick", "price":4 }
+  ]
+}
