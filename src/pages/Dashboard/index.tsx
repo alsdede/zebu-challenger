@@ -1,52 +1,56 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import { usePizza } from '../../hooks/usePizza';
 import { useToast } from '../../hooks/useToast';
 import {
+  Avatar,
   Container,
   Error,
   NextButton,
   Title,
-  PizzaSizeButton,
+  PizzaSize,
+  PizzaCrust,
   CrustButton,
+  PizzaContainer,
   PizzaContainerSize,
   PizzaContainerCrust,
+  PizzaInfoSize,
 } from './styles';
 
 import PizzaAvatar from '../../assets/forma.png';
 
-type OptionCrustType = {
-  value: string;
-  label: string;
-  price: number;
-};
-
 interface Size {
+  id: number;
   value: string;
-
   label: string;
-
   price: number;
-
   maxIngridientes: number;
 }
 
 interface Crust {
+  id: number;
   value: string;
-
   label: string;
-
   price: number;
 }
 
 const sizeOptions: Size[] = [
-  { value: 'small', label: 'Small - 9 inches', price: 8, maxIngridientes: 5 },
   {
+    id: 0,
+    value: 'small',
+    label: 'Small - 9 inches',
+    price: 8,
+    maxIngridientes: 5,
+  },
+  {
+    id: 1,
     value: 'medium',
     label: 'Medium - 12 inches',
     price: 10,
     maxIngridientes: 7,
   },
   {
+    id: 2,
     value: 'large',
     label: 'Large - 14 inches',
     price: 12,
@@ -55,77 +59,90 @@ const sizeOptions: Size[] = [
 ];
 
 const crustOptions: Crust[] = [
-  { value: 'thin', label: `Thin +$2`, price: 2 },
-  { value: 'thick', label: 'Thick +$4', price: 4 },
+  { id: 0, value: 'thin', label: `Thin +$2`, price: 2 },
+  { id: 1, value: 'thick', label: 'Thick +$4', price: 4 },
 ];
 
 const Dashboard: React.FC = () => {
   const [inputError, setInputError] = useState('');
-  const [selected, setSelected] = useState<boolean>(false);
   const [sizePizza, setSizePizza] = useState<Size>();
   const [crust, setCrust] = useState<Crust>();
 
-  const { addPizzaSize, addPizzaCrust, pizza } = usePizza();
+  const { addPizzaSize, addPizzaCrust, pizza, size, total } = usePizza();
   const { addToast } = useToast();
-  console.log(pizza);
+  const history = useHistory();
 
-  const handleSelectPizza = (option: Size) => {
-    if (crust) {
-      setCrust(undefined);
-    }
+  const handleSelectPizza = (option: Size): void => {
     setSizePizza(option);
-    setSelected(true);
     addPizzaSize(option);
-    addToast({
-      type: 'success',
-      title: 'Pizza selecionada',
-      description: `Pizza ${pizza} selecionada`,
-    });
+
+    if (size) {
+      addToast({
+        type: 'success',
+        title: 'Pizza!! ',
+        description: `You select a Pizza ${size.label}  $,${size.price}`,
+      });
+    }
   };
 
-  const handleSelectCrust = (option: Crust) => {
-    setCrust(option);
-    addPizzaCrust(option);
+  const handleSelectCrust = useCallback(
+    (option: Crust): void => {
+      setCrust(option);
+      addPizzaCrust(option);
+    },
+    [addPizzaCrust],
+  );
+
+  const navigateToppings = () => {
+    history.push('/toppings');
   };
   return (
     <>
       <Container>
         <Title>Choose Pizza Size:</Title>
-        <PizzaContainerSize>
-          {sizeOptions.map((size) => (
-            <>
-              <PizzaSizeButton
-                selected={!!sizePizza && sizePizza === size}
+        <PizzaContainer>
+          <PizzaContainerSize>
+            {sizeOptions.map((sizeOption) => (
+              <PizzaSize
+                key={sizeOption.id}
+                selected={!!sizePizza && sizePizza === sizeOption}
                 onClick={() => {
-                  handleSelectPizza(size);
+                  handleSelectPizza(sizeOption);
                 }}
               >
-                <img src={PizzaAvatar} alt="pizza" />
-                <span>{size.label}</span>
-                <span>Price: ${size.price}</span>
-                {!!sizePizza && sizePizza === size ? (
-                  <PizzaContainerCrust>
-                    <span>Choose pizza Crust</span>
-                    {crustOptions.map((c) => (
-                      <CrustButton
-                        onClick={() => {
-                          handleSelectCrust(c);
-                        }}
-                        selected={!!crust && crust === c}
-                      >
-                        {c?.label}
-                      </CrustButton>
-                    ))}
-                  </PizzaContainerCrust>
-                ) : (
-                  ''
-                )}
-              </PizzaSizeButton>
-            </>
-          ))}
-        </PizzaContainerSize>
+                <PizzaInfoSize>
+                  <Avatar src={PizzaAvatar} alt="pizza" />
+                  <span>{sizeOption.label}</span>
+                  <span>
+Price: $
+{sizeOption.price}
+                  </span>
+                </PizzaInfoSize>
+              </PizzaSize>
+            ))}
+          </PizzaContainerSize>
+          <PizzaContainerCrust>
+            {sizePizza && (
+              <PizzaCrust>
+                {crustOptions.map((c) => (
+                  <CrustButton
+                    key={c.id}
+                    onClick={() => {
+                      handleSelectCrust(c);
+                    }}
+                    selected={!!crust && crust === c}
+                  >
+                    {c?.label}
+                  </CrustButton>
+                ))}
+              </PizzaCrust>
+            )}
+          </PizzaContainerCrust>
+        </PizzaContainer>
 
-        <NextButton to="/toppings">Select Toppings</NextButton>
+        <NextButton disabled={!crust} onClick={navigateToppings}>
+          Select Toppings
+        </NextButton>
       </Container>
     </>
   );
