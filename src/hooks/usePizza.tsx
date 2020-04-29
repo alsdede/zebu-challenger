@@ -43,6 +43,7 @@ interface PizzaContextData {
   addPizzaSize(size: Size): void;
   addPizzaCrust(crust: Crust): void;
   addPizzaToppings(topping: Toppings): void;
+  addTotal(): void;
 }
 export const PizzaContext = createContext<PizzaContextData>(
   {} as PizzaContextData,
@@ -56,6 +57,19 @@ export const PizzaProvider: React.FC = ({ children }) => {
   const [total, setTotal] = useState<number | undefined>();
 
   const { addToast } = useToast();
+
+  const addTotal = useCallback(() => {
+    if (toppings.length >= 3) {
+      const extraIngredients = toppings.length - 3;
+      if (extraIngredients > 0) {
+        const updateTotal = size.price + crust.price + extraIngredients * 0.5;
+        setTotal(updateTotal);
+      } else {
+        const updateTotal = size.price + crust.price;
+        setTotal(updateTotal);
+      }
+    }
+  }, [size, crust, toppings]);
 
   const addPizzaSize = useCallback(
     (pizzaSize) => {
@@ -89,24 +103,23 @@ export const PizzaProvider: React.FC = ({ children }) => {
       if (toppingExist) {
         return alert('Only one (1) ingredients of each');
       }
-      if (toppings.length >= size.maxIngridientes) {
-        addToast({
-          type: 'info',
-          title: 'Alert!!',
-          description: `Extra ingredients coust +$0,50`,
-        });
-        if (total) {
-          const updateTotal = total + 0.5;
 
-          setTotal(updateTotal);
-        }
-        console.log(total);
+      if (size.value === 'small' && toppings.length >= 5) {
+        return alert(`Max 5 toppings in ${size.value.toLocaleUpperCase()}`);
+      }
+
+      if (size.value === 'medium' && toppings.length >= 7) {
+        return alert(`Max 5 toppings in ${size.value.toLocaleUpperCase()}`);
+      }
+      if (size.value === 'large' && toppings.length >= 10) {
+        return alert(`Max 5 toppings in ${size.value.toLocaleUpperCase()}`);
       }
 
       setToppings((state) => [...state, pizzaToppings]);
     },
-    [addToast, size, total, toppings],
+    [toppings],
   );
+
   return (
     <PizzaContext.Provider
       value={{
@@ -118,6 +131,7 @@ export const PizzaProvider: React.FC = ({ children }) => {
         addPizzaSize,
         addPizzaCrust,
         addPizzaToppings,
+        addTotal,
       }}
     >
       {children}

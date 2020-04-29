@@ -18,10 +18,12 @@ export const Container = styled.div`
 
 export const Header = styled.div`
   display: flex;
-  padding: 5px;
+  flex-direction: row;
+  padding: 5px 20px;
+  justify-content: space-between;
 
   span {
-    font-size: 20px;
+    font-size: 16px;
   }
 `;
 

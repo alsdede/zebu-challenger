@@ -30,10 +30,13 @@ const Check: React.FC = () => {
           </Row>
           <Row>
             Extra Ingredients:
-            {toppings.length}
+            {toppings.length} $
           </Row>
           <span />
-          <span>Total: ${total}</span>
+          <span>
+Total: $
+{total?.toFixed(2)}
+          </span>
         </PizzaInfo>
         <PizzaInfo>
           <Title>Ingredients</Title>

@@ -90,7 +90,7 @@ const optionsToppings: Topping[] = [
 const Toppings: React.FC = () => {
   const [toppingPizza, setToppingPizza] = useState<Topping[]>([]);
 
-  const { addPizzaToppings, total, size, toppings } = usePizza();
+  const { addPizzaToppings, addTotal, total, size, toppings } = usePizza();
   const { addToast } = useToast();
   const history = useHistory();
 
@@ -110,25 +110,18 @@ const Toppings: React.FC = () => {
   };
   const navigateForward = () => {
     history.push('/check');
+    addTotal();
   };
   return (
     <>
       <Container>
         <Header>
-          <div>
-            <span>
-              Choose
-              {size.maxIngridientes} Ingredients{' '}
-            </span>
-          </div>
-          <div>
-            <span>extra ingredients $0,50</span>
-            <span>
-              Price $
-{total}
-            </span>
-            {/* <span>{toppings.length}</span> */}
-          </div>
+          <span>
+            Ingredients selected:
+            {toppings.length}
+          </span>
+          <h2>Select 3 Ingredients</h2>
+          <span>Extra ingredients +$0,50</span>
         </Header>
 
         <ToppingsList>
@@ -143,7 +136,7 @@ const Toppings: React.FC = () => {
             </Topping>
           ))}
         </ToppingsList>
-        {toppings.length}
+
         <BackButton onClick={navigateBack}>Back</BackButton>
         <NextButton disabled={!toppings.length} onClick={navigateForward}>
           Checkout

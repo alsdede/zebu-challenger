@@ -15,8 +15,9 @@ export const Container = styled.div`
   height: 100%;
   padding: 20px;
 `;
-export const Title = styled.h2`
+export const Title = styled.h1`
   color: #333;
+  margin-bottom: 10px;
 `;
 
 export const Avatar = styled.img`

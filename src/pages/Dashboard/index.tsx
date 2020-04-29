@@ -99,7 +99,7 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Container>
-        <Title>Choose Pizza Size:</Title>
+        <Title>Make your PIZZA:</Title>
         <PizzaContainer>
           <PizzaContainerSize>
             {sizeOptions.map((sizeOption) => (
@@ -114,8 +114,15 @@ const Dashboard: React.FC = () => {
                   <Avatar src={PizzaAvatar} alt="pizza" />
                   <span>{sizeOption.label}</span>
                   <span>
-Price: $
-{sizeOption.price}
+                    Price: $
+{sizeOption.price.toFixed(2)}
+                  </span>
+                  <span
+                    style={{ marginTop: 2, fontSize: 16, color: '#ea1d2c' }}
+                  >
+                    max: {sizeOption.maxIngridientes}
+{' '}
+Ingredients{' '}
                   </span>
                 </PizzaInfoSize>
               </PizzaSize>
