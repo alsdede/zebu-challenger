@@ -60,6 +60,7 @@ export const PizzaSizeButton = styled.div<ButtonSizeProps>`
   margin-left: 20px;
   border-radius: 6px;
   padding: 20px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
   ${(props) =>
     props.selected &&
     css`

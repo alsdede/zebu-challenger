@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { usePizza } from '../../hooks/PizzaContext';
+import { usePizza } from '../../hooks/usePizza';
+import { useToast } from '../../hooks/useToast';
 import {
   Container,
   Error,
@@ -65,6 +66,7 @@ const Dashboard: React.FC = () => {
   const [crust, setCrust] = useState<Crust>();
 
   const { addPizzaSize, addPizzaCrust, pizza } = usePizza();
+  const { addToast } = useToast();
   console.log(pizza);
 
   const handleSelectPizza = (option: Size) => {
@@ -74,6 +76,11 @@ const Dashboard: React.FC = () => {
     setSizePizza(option);
     setSelected(true);
     addPizzaSize(option);
+    addToast({
+      type: 'success',
+      title: 'Pizza selecionada',
+      description: `Pizza ${pizza} selecionada`,
+    });
   };
 
   const handleSelectCrust = (option: Crust) => {
@@ -95,10 +102,7 @@ const Dashboard: React.FC = () => {
               >
                 <img src={PizzaAvatar} alt="pizza" />
                 <span>{size.label}</span>
-                <span>
-Price: $
-{size.price}
-                </span>
+                <span>Price: ${size.price}</span>
                 {!!sizePizza && sizePizza === size ? (
                   <PizzaContainerCrust>
                     <span>Choose pizza Crust</span>
@@ -123,7 +127,6 @@ Price: $
 
         <NextButton to="/toppings">Select Toppings</NextButton>
       </Container>
-      {/* <Footer /> */}
     </>
   );
 };
