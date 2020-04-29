@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import Select, { ValueType } from 'react-select';
-
+import React, { useState, useContext } from 'react';
+import { usePizza } from '../../hooks/PizzaContext';
 import {
   Container,
   Error,
@@ -11,7 +10,7 @@ import {
   PizzaContainerSize,
   PizzaContainerCrust,
 } from './styles';
-import Footer from '../../components/Footer';
+
 import PizzaAvatar from '../../assets/forma.png';
 
 type OptionCrustType = {
@@ -65,16 +64,21 @@ const Dashboard: React.FC = () => {
   const [sizePizza, setSizePizza] = useState<Size>();
   const [crust, setCrust] = useState<Crust>();
 
+  const { addPizzaSize, addPizzaCrust, pizza } = usePizza();
+  console.log(pizza);
+
   const handleSelectPizza = (option: Size) => {
     if (crust) {
       setCrust(undefined);
     }
     setSizePizza(option);
     setSelected(true);
+    addPizzaSize(option);
   };
 
   const handleSelectCrust = (option: Crust) => {
     setCrust(option);
+    addPizzaCrust(option);
   };
   return (
     <>

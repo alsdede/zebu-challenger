@@ -31,6 +31,8 @@ export const CrustButton = styled.div<ButtonSizeProps>`
   border-radius: 6px;
   padding: 20px;
   transition: opacity 0.2s;
+
+  z-index: 20;
   ${(props) =>
     props.selected &&
     css`
@@ -79,7 +81,9 @@ export const PizzaSizeButton = styled.div<ButtonSizeProps>`
   }
 `;
 
-export const PizzaContainerCrust = styled.div``;
+export const PizzaContainerCrust = styled.div`
+  position: relative;
+`;
 
 export const NextButton = styled(Link)`
   margin-top: 20px;
