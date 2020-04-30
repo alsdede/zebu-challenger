@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
   const [sizePizza, setSizePizza] = useState<Size>();
   const [crust, setCrust] = useState<Crust>();
 
-  const { addPizzaSize, addPizzaCrust, pizza, size, total } = usePizza();
+  const { addPizzaSize, addPizzaCrust, size, total } = usePizza();
   const { addToast } = useToast();
   const history = useHistory();
 
@@ -113,16 +113,14 @@ const Dashboard: React.FC = () => {
                 <PizzaInfoSize>
                   <Avatar src={PizzaAvatar} alt="pizza" />
                   <span>{sizeOption.label}</span>
-                  <span>
-                    Price: $
-{sizeOption.price.toFixed(2)}
-                  </span>
+                  <span>Price: ${sizeOption.price.toFixed(2)}</span>
                   <span
                     style={{ marginTop: 2, fontSize: 16, color: '#ea1d2c' }}
                   >
-                    max: {sizeOption.maxIngridientes}
+                    max:
 {' '}
-Ingredients{' '}
+{sizeOption.maxIngridientes} Ingredients
+{' '}
                   </span>
                 </PizzaInfoSize>
               </PizzaSize>

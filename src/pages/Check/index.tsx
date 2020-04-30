@@ -1,19 +1,18 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { usePizza } from '../../hooks/usePizza';
-import { Container, PizzaInfo, Title, Topping, Row } from './styles';
+import {
+  Container,
+  PizzaInfo,
+  Title,
+  Topping,
+  Row,
+  PizzaIngredients,
+} from './styles';
 import PizzaAvatar from '../../assets/pizza.png';
 
 const Check: React.FC = () => {
-  const {
-    addPizzaSize,
-    addPizzaCrust,
-    pizza,
-    size,
-    crust,
-    total,
-    toppings,
-  } = usePizza();
+  const { size, crust, total, toppings, extraItems } = usePizza();
   return (
     <>
       <Container>
@@ -30,7 +29,8 @@ const Check: React.FC = () => {
           </Row>
           <Row>
             Extra Ingredients:
-            {toppings.length} $
+            {extraItems}
+{' '}
           </Row>
           <span />
           <span>
@@ -38,13 +38,15 @@ Total: $
 {total?.toFixed(2)}
           </span>
         </PizzaInfo>
-        <PizzaInfo>
+        <PizzaIngredients>
           <Title>Ingredients</Title>
           {toppings.map((topping) => (
-            <Row>{topping.label}</Row>
+            <Row style={{ fontSize: 18 }}>
+{' '}
+-{topping.label}</Row>
           ))}
           <Topping />
-        </PizzaInfo>
+        </PizzaIngredients>
       </Container>
     </>
   );

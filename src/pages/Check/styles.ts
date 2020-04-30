@@ -38,6 +38,31 @@ export const Title = styled.h3`
   justify-content: center;
 `;
 
+export const PizzaIngredients = styled.div`
+  background: #fff;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  border-radius: 6px;
+  padding: 20px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+
+  span {
+    display: flex;
+    font-size: 18px;
+    color: #888;
+    margin-top: 5px;
+    justify-content: initial;
+    align-items: center;
+  }
+
+  strong {
+    margin-top: 10px;
+    font-size: 22px;
+  }
+`;
+
 export const Row = styled.span``;
 
 export const ToppingsList = styled.ul`
