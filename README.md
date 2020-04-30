@@ -13,6 +13,10 @@
   <img alt="login" src=".github/toppingspage.png">
 
 </p>
+<p align="center">
+  <img alt="login" src=".github/checkoutpage.png">
+
+</p>
 <br>
 <p>
 App specifications:
